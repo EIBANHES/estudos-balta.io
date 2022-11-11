@@ -1,0 +1,49 @@
+<!-- Para exibir o vaalor de uma variavel utiliza-se
+chaver duplas {{}} -->
+
+<h1 class="title animate__animated animate__jackInTheBox">{{ title }}</h1>
+
+<!-- exibindo os todos dentro de uma ul/li -->
+<ul class="animate__animated animate__flipInX" *ngIf="mode=='list'">
+  <p class="text-center" *ngIf="todos.length==0"><small>Não tem nenhuma tarefa hoje</small></p>
+  <!-- for of, percorre os itens do todos array -->
+  <li *ngFor="let todo of todos">
+    {{ todo.title }}
+    <!-- fazendo uma  validação com if -->
+    <button *ngIf="!todo.done" (click)="markAsDone(todo)"><i class="far fa-check-circle"></i></button> <!--refazer-->
+    <button *ngIf="todo.done" (click)="markAsUndone(todo)"><i class="fas fa-check-circle"></i></button>
+    <button (click)="remove(todo)"><i class="far fa-trash-alt"></i></button>
+  </li>
+</ul>
+
+<!-- Chamando metodo
+  () HTML > TS,
+  []  TS > HTML
+  [()]  TS <> HTML
+-->
+
+<!-- Formularios reativos do angular react forms -->
+<div class="animate__animated animate__flipInX" id="modal" *ngIf="mode=='add'">
+  <h1 class="text-center">
+    Nova Tarefa
+  </h1>
+  <form [formGroup]="form">
+      <label for="">Tarefa: </label>
+      <input type="text" placeholder="Titulo da tarefa" formControlName="title">
+      <!-- form.controls.title.pristine ->  diz se o controle do formulário ja foi modificado ou não -->
+      <small class="danger" *ngIf="form.controls.title.invalid && !form.controls.title.pristine">
+        Este campo deve conter entre 3 e 60 caracteres <br> 
+      </small>
+      <p class="text-center">
+        <button class="button" [disabled]="form.invalid" (click)="add()"><i class="far fa-save"></i> SALVAR</button>
+      </p>
+  </form>
+</div>
+<button class="add-button animate__animated animate__fadeInUP button" (click)="changeMode('add')" *ngIf="mode=='list'">
+  <i class="fas fa-plus-circle"></i>
+  NOVA TAREFA
+</button>
+<button class="add-button animate__animated animate__fadeInUP button" (click)="changeMode('list')" *ngIf="mode=='add'">
+  <i class="fas fa-times"></i>
+  CANCELAR 
+</button>
