@@ -10,7 +10,8 @@ chaver duplas {{}} -->
   <li *ngFor="let todo of todos">
     {{ todo.title }}
     <!-- fazendo uma  validação com if -->
-    <button *ngIf="!todo.done" (click)="markAsDone(todo)"><i class="far fa-check-circle"></i></button> <!--refazer-->
+    <button *ngIf="!todo.done" (click)="markAsDone(todo)"><i class="far fa-check-circle"></i></button>
+    <!--refazer-->
     <button *ngIf="todo.done" (click)="markAsUndone(todo)"><i class="fas fa-check-circle"></i></button>
     <button (click)="remove(todo)"><i class="far fa-trash-alt"></i></button>
   </li>
@@ -28,15 +29,15 @@ chaver duplas {{}} -->
     Nova Tarefa
   </h1>
   <form [formGroup]="form">
-      <label for="">Tarefa: </label>
-      <input type="text" placeholder="Titulo da tarefa" formControlName="title">
-      <!-- form.controls.title.pristine ->  diz se o controle do formulário ja foi modificado ou não -->
-      <small class="danger" *ngIf="form.controls.title.invalid && !form.controls.title.pristine">
-        Este campo deve conter entre 3 e 60 caracteres <br> 
-      </small>
-      <p class="text-center">
-        <button class="button" [disabled]="form.invalid" (click)="add()"><i class="far fa-save"></i> SALVAR</button>
-      </p>
+    <label for="">Tarefa: </label>
+    <input type="text" placeholder="Titulo da tarefa" formControlName="title">
+    <!-- form.controls.title.pristine ->  diz se o controle do formulário ja foi modificado ou não -->
+    <small class="danger" *ngIf="form.controls.title.invalid && !form.controls.title.pristine">
+      Este campo deve conter entre 3 e 60 caracteres <br>
+    </small>
+    <p class="text-center">
+      <button class="button" [disabled]="form.invalid" (click)="add()"><i class="far fa-save"></i> SALVAR</button>
+    </p>
   </form>
 </div>
 <button class="add-button animate__animated animate__fadeInUP button" (click)="changeMode('add')" *ngIf="mode=='list'">
@@ -45,5 +46,5 @@ chaver duplas {{}} -->
 </button>
 <button class="add-button animate__animated animate__fadeInUP button" (click)="changeMode('list')" *ngIf="mode=='add'">
   <i class="fas fa-times"></i>
-  CANCELAR 
+  CANCELAR
 </button>
