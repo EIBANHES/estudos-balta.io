@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { Observable } from 'rxjs';
+import { Product } from 'src/app/models/product.models';
 
 @Component({
   selector: 'app-products-page',
   templateUrl: './products-page.component.html',
   styleUrls: ['./products-page.component.css']
 })
-export class ProductsPageComponent implements OnInit { // implements OnInit -> Obriga o component ser construido antes
+export class ProductsPageComponent implements OnInit {
+  products$: Observable<Product[]> = null;
 
-  //utilização do async
-  public products$: Observable<any[]>; //variavel
-
-  constructor(private data: DataService) { } //itens de variaveis ou coisas que nao exigem mto processamento sao setadas no constructor, pq pode travar o component
+  constructor(private service: DataService) { }
 
   ngOnInit() {
-    this.products$ =  this.data.getProducts();
+    this.products$ = this.service.getProducts();
   }
 
 }
+
