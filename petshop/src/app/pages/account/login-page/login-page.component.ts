@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CustomValidator } from 'src/app/validators/custom.validator';
+import { Security } from 'src/app/utils/security.util';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -11,15 +13,18 @@ import { DataService } from 'src/app/services/data.service';
 export class LoginPageComponent implements OnInit {
   public form: FormGroup;
   public busy = false;
+
   constructor(
-    private service: DataService,  //injeção de dependencia
+    private router: Router,
+    private service: DataService,
     private fb: FormBuilder
   ) {
-    this.form = fb.group({
+    this.form = this.fb.group({
       username: ['', Validators.compose([
-        Validators.minLength(11),
-        Validators.maxLength(11),
-        Validators.required
+        Validators.minLength(14),
+        Validators.maxLength(14),
+        Validators.required,
+        CustomValidator.isCpf()
       ])],
       password: ['', Validators.compose([
         Validators.minLength(6),
@@ -30,45 +35,45 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    const token = localStorage.getItem('petshop.token'); //tenta pegar o token
-
-    if (token) { //se conseguir pegar o token no localStorage
+    const token = Security.getToken();  //pega o token
+    if (token) {
       this.busy = true;
       this
         .service
-        .refreshToken() //pega o metodo do service e passa um valor -> data
-        .subscribe( //streamming de dados, no post n tem problema de demora
+        .refreshToken()
+        .subscribe(
           (data: any) => {
-            localStorage.setItem('petshop.token', data.token) //token armazenado quando logar 
             this.busy = false;
+            this.setUser(data.customer, data.token);
           },
           (err) => {
-            localStorage.clear(); //limpa as informações do localStorage
+            localStorage.clear();
             this.busy = false;
           }
         );
     }
   }
-  //Variavel global -> Cada recarregando teria que logar dnv na aplicação
-  //session storage -> Se o  usuário fechar a aba ele perde o token
-  //local storage  -> Pode reiniciar a maquina e  tudo que o token nao vai ser perdido
 
-  submit() { //armazenamento do token
+  submit() {
     this.busy = true;
     this
       .service
-      .authenticate(this.form.value) //pega o metodo do service e passa um valor -> data
-      .subscribe( //streamming de dados, no post n tem problema de demora
+      .authenticate(this.form.value)
+      .subscribe(
         (data: any) => {
-          localStorage.setItem('petshop.token', data.token) //token armazenado quando logar 
           this.busy = false;
+          this.setUser(data.customer, data.token);
         },
         (err) => {
           console.log(err);
-          this.busy = true;
+          this.busy = false;
         }
       );
   }
 
+  setUser(user, token) {
+    Security.set(user, token);
+    this.router.navigate(['/']);
+  }
 
 }
