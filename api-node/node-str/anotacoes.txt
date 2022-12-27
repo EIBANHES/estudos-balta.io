@@ -1,0 +1,16 @@
+Instalação node, npm e vs code:
+
+	- no terminal dentro da pasta digitar node init -y, para configurar toda a aplicação node,
+	- criar posteriormente na raiz um arquivo chamado server.js
+	- para rodar uma aplicação node é só rodar node server.js
+
+
+Instalação para criar um servidor HTTP:
+
+	- npm install http express debug --save  -> instala 3 pacotes
+	- Debug: Debuga a aplicação;
+	- Express: Prove toda parte do MVC,
+	- HTTP: Servidor HTTP
+
+Criando um servidor web:
+
