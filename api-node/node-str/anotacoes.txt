@@ -13,4 +13,85 @@ Instalação para criar um servidor HTTP:
 	- HTTP: Servidor HTTP
 
 Criando um servidor web:
+	- importação de modulos:
+		const http = require('http');
+		const debug = require('debug')('nodestr:server');
+		const express = require('express');
+	
+	- Instanciando a API:
+		const app = express();
+		const port = 3000;
+		app.set('port', port);
+		
+	- criando um servidor:
+		const server = http.createServer(app);
+		const router = express.Router();
+	
+	- Criando uma rota:
+		const route = router.get('/', (req, res, next) =>  {
+			res.status(200).send({
+				title: "Node Store API",
+				version: "0.0.1"
+			});
+		});
+		app.use('/', route);
+	
+	- Ouvir tudo que chega na porta 300:
+		server.listen(port);
+		console.log('API rodando na porta: '+port);
+		
+	
+Normalizando a porta:
+
+	function normalizePort(val) {
+	  const port = parseInt(val, 10);
+
+	  if (isNaN(port)) {
+		return val;
+	  }
+	  if (port >= 0) {
+		return port;
+	  }
+	  return false;
+	}
+		
+		
+Tratativa de erro no servidor:
+	
+	- Tratar erro de permissão ou de porta sendo usada:
+		function onError(error){
+			if(error.syscall !== 'listen'){
+				throw error;
+			}
+			const bind = typeof port === 'string' ?
+				'Pipe ' + port:
+				'Port ' + port;
+
+			switch (error.code) {
+				case 'EACCES':
+					console.error(bind  + ' requires elevated privileges');
+					process.exit(1);
+					break;
+				case 'EADDRINUSE':
+					console.error(bind  + ' is already in use');
+					process.exit(1);
+					break;
+			
+				default:
+					throw error;
+			}
+		}
+
+Atualizando o packege.json:
+
+	- "test": "echo \"Error: no test specified\" && exit 1" 
+		- Replace to:
+	- "start": "node ./bin/server.js"
+	- Agora para executar uma aplicação só digitar npm start
+
+Nodemon:
+	
+	- Reseta o servidor automaticamente quando altera algo
+	- npm install nodemon --save-dev
+	-  { --save-dev }, válido somente para ambiente de produção
 
