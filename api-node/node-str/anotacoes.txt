@@ -95,3 +95,34 @@ Nodemon:
 	- npm install nodemon --save-dev
 	-  { --save-dev }, válido somente para ambiente de produção
 
+Req, res, next
+
+	-> Req -> Requsição;
+	-> Res -> Resposta;
+	-> Next -> Continuar
+
+Status HTTP:
+
+	-> 200: ok;
+	-> 201: created;
+	-> 400: bad request;
+	-> 401: não autenticado;
+	-> 403: acesso negado,
+	-> 500: internal server error.
+
+O que precisa para criar uma rota?
+
+	-> Express e router
+
+Body parser
+
+	-> Pacote importante para converter o corpo de uma requisição para o JSON
+
+Estruturação da API:
+
+	-> pasta routes : responsavel por conter todas as rotas da api
+	-> pasta controller: faz a manipulação dos dados e dps envia para o user
+
+Para conexão de banco de dados
+
+	-> npm install mongoose --save
