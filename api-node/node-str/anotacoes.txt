@@ -114,15 +114,16 @@ O que precisa para criar uma rota?
 
 	-> Express e router
 
-Body parser
-
-	-> Pacote importante para converter o corpo de uma requisição para o JSON
 
 Estruturação da API:
 
 	-> pasta routes : responsavel por conter todas as rotas da api
 	-> pasta controller: faz a manipulação dos dados e dps envia para o user
 
-Para conexão de banco de dados
+Body parser
+
+	-> Pacote importante para converter o corpo de uma requisição para o JSON
+	
+Para conexão de banco de dados : mongoose
 
 	-> npm install mongoose --save
